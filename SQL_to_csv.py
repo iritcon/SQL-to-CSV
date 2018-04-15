@@ -17,6 +17,7 @@ e2.grid(row=5, column=1)
 e.focus_set()
 estr = str(master.focus_get().__class__)
 
+#Change credentials
 conn = pymssql.connect(
     host=r"host",
     user=r"user",
@@ -26,7 +27,9 @@ conn = pymssql.connect(
 
 pd.options.display.max_rows = 10000
 
-#commands
+#Commands
+
+#Show status either success or error
 def status():
     global top
     top = tk.Toplevel(master)
@@ -35,6 +38,7 @@ def status():
     msg.grid(row=0, column=1)
     master.after(5000, top.destroy)
 
+#Run main app 
 def run():
     try:
         sql = e.get('1.0', tk.END)
@@ -59,26 +63,32 @@ def run():
         top.title('Error')
         msg = tk.Message(top, text=ex, width=750)
         msg.grid(row=0, column=1)
-
+        
+#Show status then run main code
 def comb(event=None):
     status()
     master.after(3000, run)
-        
+    
+#Close message box
 def close(event=None):
     top.destroy()
 
+#Close app
 def closeAll(event=None):
     master.quit()
 
+#Clear entry boxes
 def reset(event=None):
    e.delete('1.0', tk.END)
    e2.delete(0, 'end')
    e.focus_set()
 
+#Skip from query entry to filename
 def selectNext(event):
     event.widget.tk_focusNext().focus()
     return("break")
 
+#Run app and bind shortcut keys
 menubar = tk.Menu(master)
 menubar.add_command(label="Run", command=runFromMenu)
 menubar.add_command(label="Reset", command=resetFromMenu)
